@@ -9,9 +9,7 @@ const service = axios.create({
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 3000, // request timeoutVUE_APP_BASE_API
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    'Content-Type': 'application/json',
-    // "Origin"
+    'Content-Type': 'text/plain;charset=UTF-8',
   }
 })
 
@@ -19,8 +17,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     if (store.getters.token) {
-      console.log("have")
-      config.headers['token'] = getToken()
+      // config.headers['token'] = getToken()
     }
 
     return config
@@ -34,7 +31,8 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  res => {
+  response => {
+    var res = response.data
     if (res.code !== 200) {
       Message({
         message: res.msg || 'Error',
